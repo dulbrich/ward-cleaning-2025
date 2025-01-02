@@ -70,7 +70,7 @@ const Messenger: React.FC = () => {
             console.log('Template before replacement:', template);
             console.log('Contact details:', contact);
 
-            const messageTemplate = template;
+            const messageTemplate: string = String(template);
 
             console.log('Message Template before replacement:', messageTemplate);
 
