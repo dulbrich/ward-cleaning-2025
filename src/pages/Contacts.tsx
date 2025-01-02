@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonListHeader, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardHeader, IonCardContent, IonSearchbar } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonListHeader, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardHeader, IonCardContent, IonSearchbar, IonMenuButton } from '@ionic/react';
 import { search, trashBin } from 'ionicons/icons';
 import './Contacts.css';
 import Papa from 'papaparse';
@@ -63,6 +63,9 @@ const Contacts: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonMenuButton />
+                    </IonButtons>
                     <IonTitle>Contacts</IonTitle>
                     <IonButtons slot="end">
                         <IonButton>
