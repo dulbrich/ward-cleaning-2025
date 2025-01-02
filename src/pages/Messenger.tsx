@@ -64,17 +64,21 @@ const Messenger: React.FC = () => {
         const contact = contacts[index];
         const templateIndex = localStorage.getItem('selectedCampaignTemplateIndex');
         const templates: Template[] = JSON.parse(localStorage.getItem('savedCampaignTemplates') || '[]');
-        const template = templates[Number(templateIndex)];
+        const template = templates[Number(templateIndex)] || '';
 
         if (template) {
             console.log('Template before replacement:', template);
             console.log('Contact details:', contact);
 
-            const message = Object.values(template)[0]
-                .replace('{FirstName}', contact.firstName)
-                .replace('{LastName}', contact.lastName)
-                .replace('{FullName}', `${contact.firstName} ${contact.lastName}`)
-                .replace('{Group}', selectedGroup);
+            const messageTemplate = template;
+
+            console.log('Message Template before replacement:', messageTemplate);
+
+            const message = messageTemplate
+                .replace(/{FirstName}/g, contact.firstName)
+                .replace(/{LastName}/g, contact.lastName)
+                .replace(/{FullName}/g, `${contact.firstName} ${contact.lastName}`)
+                .replace(/{Group}/g, selectedGroup);
 
             console.log('Message after replacement:', message);
 
