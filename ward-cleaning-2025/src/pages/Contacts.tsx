@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonListHeader, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardHeader, IonCardContent, IonSearchbar } from '@ionic/react';
 import { search, trashBin } from 'ionicons/icons';
 import './Contacts.css';
@@ -26,6 +26,14 @@ const Contacts: React.FC = () => {
 
     // Perform the search
     const results = searchQuery ? fuse.search(searchQuery).map((result: { item: any; }) => result.item) : contacts;
+
+    // Load contacts from local storage on component mount
+    useEffect(() => {
+        const storedContacts = localStorage.getItem('contacts');
+        if (storedContacts) {
+            setContacts(JSON.parse(storedContacts));
+        }
+    }, []);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
