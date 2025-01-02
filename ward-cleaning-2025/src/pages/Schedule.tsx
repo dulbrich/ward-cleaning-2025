@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardContent, IonAlert, IonList, IonItem, IonLabel, IonCardHeader } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Schedule: React.FC = () => {
     const [selectedMonths, setSelectedMonths] = useState<string[]>([]);
@@ -8,6 +8,13 @@ const Schedule: React.FC = () => {
     const [schedule, setSchedule] = useState<{ date: string, group: string }[]>([]);
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const groups = ['A-F', 'G-L', 'M-R', 'S-Z'];
+
+    useEffect(() => {
+        const savedSchedule = localStorage.getItem('cleaningSchedule');
+        if (savedSchedule) {
+            setSchedule(JSON.parse(savedSchedule));
+        }
+    }, []);
 
     const handleMonthSelection = (month: string) => {
         setSelectedMonths(prev => 

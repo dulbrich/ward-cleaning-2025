@@ -115,7 +115,7 @@ const Contacts: React.FC = () => {
                     <IonCardContent className="ion-no-padding contacts-card-content">
                         <IonList className="ion-no-padding">
                             <IonItem color="light" lines="none">
-                                IMPORTED CONTACTS
+                                CONTACTS
                                 <IonButtons slot="end">
                                     <IonButton onClick={() => setIsEdit(!isEdit)} slot="end">
                                         {isEdit ? 'Done' : 'Edit'}
