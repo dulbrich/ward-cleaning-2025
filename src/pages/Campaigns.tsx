@@ -47,7 +47,21 @@ const Campaigns: React.FC = () => {
     };
 
     const insertPlaceholder = (placeholder: string) => {
-        setTemplate(template + placeholder);
+        setTemplate((prevTemplate) => {
+            const newTemplate = prevTemplate + placeholder;
+            // Set focus and move cursor to the end after updating the template
+            if (textareaRef.current) {
+                textareaRef.current.setFocus().then(() => {
+                    const textareaElement = textareaRef.current?.getInputElement();
+                    if (textareaElement) {
+                        textareaElement.then((el) => {
+                            el.setSelectionRange(newTemplate.length, newTemplate.length);
+                        });
+                    }
+                });
+            }
+            return newTemplate;
+        });
     };
 
     const handleDeleteTemplate = (index: number) => {

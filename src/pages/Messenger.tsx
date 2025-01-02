@@ -67,11 +67,16 @@ const Messenger: React.FC = () => {
         const template = templates[Number(templateIndex)];
 
         if (template) {
+            console.log('Template before replacement:', template);
+            console.log('Contact details:', contact);
+
             const message = Object.values(template)[0]
                 .replace('{FirstName}', contact.firstName)
                 .replace('{LastName}', contact.lastName)
                 .replace('{FullName}', `${contact.firstName} ${contact.lastName}`)
                 .replace('{Group}', selectedGroup);
+
+            console.log('Message after replacement:', message);
 
             localStorage.setItem('lastMessage', message);
 
