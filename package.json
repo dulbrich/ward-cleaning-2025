@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@types/papaparse": "^5.3.15",
     "fuse.js": "^7.0.0",
     "papaparse": "^5.4.1"
   }
