@@ -67,7 +67,7 @@ const Messenger: React.FC = () => {
         const template = templates[Number(templateIndex)];
 
         if (template) {
-            const message = template
+            const message = Object.values(template)[0]
                 .replace('{FirstName}', contact.firstName)
                 .replace('{LastName}', contact.lastName)
                 .replace('{FullName}', `${contact.firstName} ${contact.lastName}`)
@@ -136,7 +136,7 @@ const Messenger: React.FC = () => {
                     </div>
                 ) : (
                     <IonList>
-                        {filterContactsByGroup().map((contact, index) => (
+                        {filterContactsByGroup().map((contact: Contact, index: number) => (
                             <IonItem
                                 key={index}
                                 button={!contacted.has(index)}
