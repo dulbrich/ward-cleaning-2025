@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonCol, IonCard, IonCardContent, IonModal, IonButton, IonButtons, IonFab, IonFabButton, IonIcon, IonRadioGroup, IonRadio, IonList, IonTextarea } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonGrid, IonRow, IonCol, IonCard, IonCardContent, IonModal, IonButton, IonButtons, IonFab, IonFabButton, IonIcon, IonRadioGroup, IonRadio, IonList, IonTextarea, IonMenuButton } from '@ionic/react';
 import { add, trashBin } from 'ionicons/icons';
 import './Campaigns.css';
 
@@ -64,6 +64,9 @@ const Campaigns: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonMenuButton />
+                    </IonButtons>
                     <IonTitle>Campaigns</IonTitle>
                 </IonToolbar>
             </IonHeader>

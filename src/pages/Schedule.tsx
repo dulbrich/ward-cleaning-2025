@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardContent, IonAlert, IonList, IonItem, IonLabel, IonCardHeader } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonGrid, IonRow, IonCol, IonCard, IonCardContent, IonAlert, IonList, IonItem, IonLabel, IonCardHeader, IonButtons, IonMenuButton } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 
 const Schedule: React.FC = () => {
@@ -53,6 +53,9 @@ const Schedule: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonMenuButton />
+                    </IonButtons>
                     <IonTitle>Schedule</IonTitle>
                 </IonToolbar>
             </IonHeader>

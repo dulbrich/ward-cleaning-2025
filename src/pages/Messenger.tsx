@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonToast, IonList, IonItem, IonLabel, IonIcon } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonToast, IonList, IonItem, IonLabel, IonIcon, IonButtons, IonMenuButton } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { checkmarkCircle } from 'ionicons/icons';
 
@@ -117,6 +117,9 @@ const Messenger: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonMenuButton />
+                    </IonButtons>
                     <IonTitle>Messenger</IonTitle>
                     <IonSelect slot="end" value={selectedGroup} onIonChange={e => handleGroupChange(e.detail.value)}>
                         {['A-F', 'G-L', 'M-R', 'S-Z', 'A-Z'].map(group => (
