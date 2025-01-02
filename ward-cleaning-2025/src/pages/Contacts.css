@@ -1,0 +1,4 @@
+.contacts-card-content {
+    height: calc(100vh - 165px);
+    overflow-y: auto; 
+}

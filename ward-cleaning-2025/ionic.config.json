@@ -1,0 +1,7 @@
+{
+  "name": "ward-cleaning-2025",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
