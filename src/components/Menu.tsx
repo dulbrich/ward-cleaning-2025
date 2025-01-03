@@ -1,6 +1,7 @@
 import {
   IonContent,
   IonIcon,
+  IonImg,
   IonItem,
   IonLabel,
   IonList,
@@ -54,9 +55,12 @@ const Menu: React.FC = () => {
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
+        <IonImg 
+          src="/water-logo-large.png" 
+          style={{ height: '220px', width: '220px', display: 'block', margin: '0 auto' }} 
+        />
         <IonList id="inbox-list">
           <IonListHeader>Ward Cleaning</IonListHeader>
-          <IonNote>The Church of Jesus Christ of Latter-Day Saints</IonNote>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
