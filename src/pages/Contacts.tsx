@@ -17,6 +17,8 @@ const Contacts: React.FC = () => {
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const searchbarRef = useRef<HTMLIonSearchbarElement>(null);
+    const [doNotContactList, setDoNotContactList] = useState<Contact[]>([]);
+    const [isEditDoNotContact, setIsEditDoNotContact] = useState<boolean>(false);
 
     // Configure Fuse.js
     const fuse = new Fuse(contacts, {
@@ -27,11 +29,15 @@ const Contacts: React.FC = () => {
     // Perform the search
     const results = searchQuery ? fuse.search(searchQuery).map((result: { item: any; }) => result.item) : contacts;
 
-    // Load contacts from local storage on component mount
+    // Load contacts and do not contact list from local storage on component mount
     useEffect(() => {
         const storedContacts = localStorage.getItem('contacts');
         if (storedContacts) {
             setContacts(JSON.parse(storedContacts));
+        }
+        const storedDoNotContactList = localStorage.getItem('doNotContactList');
+        if (storedDoNotContactList) {
+            setDoNotContactList(JSON.parse(storedDoNotContactList));
         }
     }, []);
 
@@ -46,17 +52,66 @@ const Contacts: React.FC = () => {
                         lastName: contact['Last Name'],
                         phoneNumber: contact['Phone Number'],
                     }));
-                    setContacts(parsedContacts);
-                    localStorage.setItem('contacts', JSON.stringify(parsedContacts));
+
+                    // Filter out contacts that are in the do not contact list
+                    const filteredContacts = parsedContacts.filter(contact => 
+                        !doNotContactList.some(doNotContact => 
+                            doNotContact.firstName === contact.firstName &&
+                            doNotContact.lastName === contact.lastName &&
+                            doNotContact.phoneNumber === contact.phoneNumber
+                        )
+                    );
+
+                    setContacts(filteredContacts);
+                    localStorage.setItem('contacts', JSON.stringify(filteredContacts));
                 },
             });
         }
     };
 
-    const handleDeleteContact = (index: number) => {
-        const updatedContacts = contacts.filter((_, i) => i !== index);
+    const handleDeleteContact = (contactToDelete: Contact) => {
+        const updatedContacts = contacts.filter(contact => 
+            contact.firstName !== contactToDelete.firstName || 
+            contact.lastName !== contactToDelete.lastName || 
+            contact.phoneNumber !== contactToDelete.phoneNumber
+        );
         setContacts(updatedContacts);
         localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+
+        // Add to do not contact list
+        const updatedDoNotContactList = [...doNotContactList, contactToDelete];
+        setDoNotContactList(updatedDoNotContactList);
+        localStorage.setItem('doNotContactList', JSON.stringify(updatedDoNotContactList));
+    };
+
+    const handleRemoveFromDoNotContact = (contactToRemove: Contact) => {
+        const updatedDoNotContactList = doNotContactList.filter(contact => 
+            contact.firstName !== contactToRemove.firstName || 
+            contact.lastName !== contactToRemove.lastName || 
+            contact.phoneNumber !== contactToRemove.phoneNumber
+        );
+        setDoNotContactList(updatedDoNotContactList);
+        localStorage.setItem('doNotContactList', JSON.stringify(updatedDoNotContactList));
+
+        // Add back to contacts
+        const updatedContacts = [...contacts, contactToRemove];
+        setContacts(updatedContacts);
+        localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+    };
+
+    const showToast = (message: string) => {
+        const toast = document.createElement('ion-toast');
+        toast.message = message;
+        toast.duration = 0; // Set duration to 0 to keep the toast on screen
+        toast.buttons = [
+            {
+                text: 'Dismiss',
+                role: 'cancel'
+            }
+        ];
+
+        document.body.appendChild(toast);
+        return toast.present();
     };
 
     return (
@@ -83,8 +138,8 @@ const Contacts: React.FC = () => {
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent color="light" className="ion-padding">
-                <IonCard>
+            <IonContent color="light" className="ion-no-padding">
+                <IonCard mode="md">
                     <IonCardHeader className="ion-no-padding">
                         <IonToolbar color="secondary">
                             {isSearch ? (
@@ -133,7 +188,38 @@ const Contacts: React.FC = () => {
                                     <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
                                     {isEdit && (
                                         <IonButtons slot="end">
-                                            <IonButton slot="icon-only" color="danger" onClick={() => handleDeleteContact(index)}>
+                                            <IonButton slot="icon-only" color="danger" onClick={() => handleDeleteContact(contact)}>
+                                                <IonIcon icon={trashBin} />
+                                            </IonButton>
+                                        </IonButtons>
+                                    )}
+                                </IonItem>
+                            ))}
+                        </IonList>
+                    </IonCardContent>
+                </IonCard>
+                <IonCard mode="md">
+                    <IonCardHeader className="ion-no-padding">
+                        <IonToolbar color="secondary">
+                            <IonTitle>DO NOT CONTACT</IonTitle>
+                            <IonButtons slot="end">
+                                <IonButton onClick={() => setIsEditDoNotContact(!isEditDoNotContact)} slot="end">
+                                    {isEditDoNotContact ? 'Done' : 'Edit'}
+                                </IonButton>
+                            </IonButtons>
+                        </IonToolbar>
+                    </IonCardHeader>
+                    <IonCardContent className="ion-no-padding contacts-card-content">
+                        <IonList className="ion-no-padding">
+                            {doNotContactList.map((contact, index) => (
+                                <IonItem key={index}>
+                                    <IonLabel>
+                                        {contact.firstName} <b>{contact.lastName}</b>
+                                    </IonLabel>
+                                    <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
+                                    {isEditDoNotContact && (
+                                        <IonButtons slot="end">
+                                            <IonButton slot="icon-only" color="danger" onClick={() => handleRemoveFromDoNotContact(contact)}>
                                                 <IonIcon icon={trashBin} />
                                             </IonButton>
                                         </IonButtons>

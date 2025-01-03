@@ -59,9 +59,9 @@ const Schedule: React.FC = () => {
                     <IonTitle>Schedule</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding" color="light">
+            <IonContent className="ion-no-padding" color="light">
                 {schedule.length > 0 && (
-                    <IonCard className="ion-no-padding" color="light">
+                    <IonCard className="ion-no-padding" color="light" mode="md">
                         <IonCardHeader className="ion-no-padding">
                             <IonToolbar color="secondary">
                                 <IonTitle>Cleaning Schedule</IonTitle>
@@ -82,12 +82,13 @@ const Schedule: React.FC = () => {
                     </IonCard>
                 )}
                 <IonGrid className="ion-no-padding">
-                    <IonRow>
+                    <IonRow className="ion-no-padding">
                         {months.map(month => (
-                            <IonCol size="6" sizeLg="4" key={month}>
+                            <IonCol size="6" sizeLg="4" key={month} className="ion-no-padding">
                                 <IonCard 
                                     color={selectedMonths.includes(month) ? 'secondary' : undefined}
                                     onClick={() => handleMonthSelection(month)}
+                                    mode="md"
                                 >
                                     <IonCardContent className="ion-text-center">
                                         {month}

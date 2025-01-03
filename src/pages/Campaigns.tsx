@@ -84,8 +84,8 @@ const Campaigns: React.FC = () => {
                     <IonTitle>Campaigns</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding" color="light">
-                <IonCard className="ion-no-padding" color="light">
+            <IonContent className="ion-no-padding" color="light">
+                <IonCard className="ion-no-padding" color="light" mode="md">
                     <IonToolbar color="secondary">
                         <IonTitle>Message Templates</IonTitle>
                         <IonButtons slot="end">
@@ -151,32 +151,30 @@ const Campaigns: React.FC = () => {
                                 />
                             </IonItem>  
                         </IonList>
-                        <IonGrid>
-                            <IonRow>
-                                <IonCol size="4">
+                        <IonGrid className="ion-no-padding">
+                            <IonRow className="ion-no-padding">
+                                <IonCol size="6" className="ion-no-padding">
                                     <IonCard button onClick={() => insertPlaceholder('{FirstName}')}>
                                         <IonCardContent className="ion-text-center">
                                             Insert First Name
                                         </IonCardContent>
                                     </IonCard>
                                 </IonCol>
-                                <IonCol size="4">
+                                <IonCol size="6" className="ion-no-padding">
                                     <IonCard button onClick={() => insertPlaceholder('{LastName}')}>
                                         <IonCardContent className="ion-text-center">
                                             Insert Last Name
                                         </IonCardContent>
                                     </IonCard>
                                 </IonCol>
-                                <IonCol size="4">
+                                <IonCol size="6" className="ion-no-padding">
                                     <IonCard button onClick={() => insertPlaceholder('{FullName}')}>
                                         <IonCardContent className="ion-text-center">
                                             Insert Full Name
                                         </IonCardContent>
                                     </IonCard>
                                 </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol size="4">
+                                <IonCol size="6" className="ion-no-padding">
                                     <IonCard button onClick={() => insertPlaceholder('{Group}')}>
                                         <IonCardContent className="ion-text-center">
                                             Insert Group
