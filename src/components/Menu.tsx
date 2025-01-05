@@ -57,7 +57,7 @@ const Menu: React.FC = () => {
       <IonContent>
         <IonImg 
           src="/water-logo-large.png" 
-          style={{ height: '220px', width: '220px', display: 'block', margin: '0 auto' }} 
+          style={{ height: '200px', width: '200px', display: 'block', margin: '0 auto' }} 
         />
         <IonList id="inbox-list">
           <IonListHeader>Ward Cleaning</IonListHeader>
