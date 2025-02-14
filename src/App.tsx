@@ -2,6 +2,8 @@ import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/r
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import Menu from './components/Menu';
+import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from "@vercel/analytics/react"
 //import Page from './pages/Page';
 import Campaigns from './pages/Campaigns';
 import Contacts from './pages/Contacts';
@@ -44,6 +46,8 @@ setupIonicReact();
 const App: React.FC = () => {
   return (
     <IonApp>
+      <SpeedInsights />
+      <Analytics />
       <IonReactRouter>
         <IonSplitPane contentId="main">
           <Menu />
