@@ -159,7 +159,7 @@ const Contacts: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent color="light" className="ion-no-padding">
-                <IonSegment value={selectedTab} onIonChange={(e) => setSelectedTab(e.detail.value!)}>
+                <IonSegment value={selectedTab} onIonChange={(e) => setSelectedTab(e.detail.value as string)}>
                     <IonSegmentButton value="contacts">
                         <IonLabel>Contact</IonLabel>
                     </IonSegmentButton>
