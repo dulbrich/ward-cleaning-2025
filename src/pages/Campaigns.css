@@ -1,4 +1,4 @@
 .templates-card-content {
-    height: calc(100vh - 135px);
+    height: calc(100vh - 185px);
     overflow-y: auto; 
 }
