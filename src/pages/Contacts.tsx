@@ -40,6 +40,11 @@ const Contacts: React.FC = () => {
     const [isEditDoNotContact, setIsEditDoNotContact] = useState<boolean>(false);
     const [selectedTab, setSelectedTab] = useState<string>('contacts');
 
+    // Helper function to sort an array of contacts by last name alphabetically.
+    const sortContactsByLastName = (contactsArray: Contact[]): Contact[] => {
+        return [...contactsArray].sort((a, b) => a.lastName.localeCompare(b.lastName));
+    };
+
     // Configure Fuse.js
     const fuse = new Fuse(contacts, {
         keys: ['firstName', 'lastName', 'phoneNumber'],
@@ -53,11 +58,13 @@ const Contacts: React.FC = () => {
     useEffect(() => {
         const storedContacts = localStorage.getItem('contacts');
         if (storedContacts) {
-            setContacts(JSON.parse(storedContacts));
+            const parsedContacts = JSON.parse(storedContacts);
+            setContacts(sortContactsByLastName(parsedContacts));
         }
         const storedDoNotContactList = localStorage.getItem('doNotContactList');
         if (storedDoNotContactList) {
-            setDoNotContactList(JSON.parse(storedDoNotContactList));
+            const parsedDoNotContacts = JSON.parse(storedDoNotContactList);
+            setDoNotContactList(sortContactsByLastName(parsedDoNotContacts));
         }
     }, []);
 
@@ -82,8 +89,9 @@ const Contacts: React.FC = () => {
                         )
                     );
 
-                    setContacts(filteredContacts);
-                    localStorage.setItem('contacts', JSON.stringify(filteredContacts));
+                    const sortedContacts = sortContactsByLastName(filteredContacts);
+                    setContacts(sortedContacts);
+                    localStorage.setItem('contacts', JSON.stringify(sortedContacts));
                 },
             });
         }
@@ -95,13 +103,15 @@ const Contacts: React.FC = () => {
             contact.lastName !== contactToDelete.lastName ||
             contact.phoneNumber !== contactToDelete.phoneNumber
         );
-        setContacts(updatedContacts);
-        localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+        const sortedUpdatedContacts = sortContactsByLastName(updatedContacts);
+        setContacts(sortedUpdatedContacts);
+        localStorage.setItem('contacts', JSON.stringify(sortedUpdatedContacts));
 
         // Add to do not contact list
         const updatedDoNotContactList = [...doNotContactList, contactToDelete];
-        setDoNotContactList(updatedDoNotContactList);
-        localStorage.setItem('doNotContactList', JSON.stringify(updatedDoNotContactList));
+        const sortedDoNotContact = sortContactsByLastName(updatedDoNotContactList);
+        setDoNotContactList(sortedDoNotContact);
+        localStorage.setItem('doNotContactList', JSON.stringify(sortedDoNotContact));
     };
 
     const handleRemoveFromDoNotContact = (contactToRemove: Contact) => {
@@ -110,13 +120,15 @@ const Contacts: React.FC = () => {
             contact.lastName !== contactToRemove.lastName ||
             contact.phoneNumber !== contactToRemove.phoneNumber
         );
-        setDoNotContactList(updatedDoNotContactList);
-        localStorage.setItem('doNotContactList', JSON.stringify(updatedDoNotContactList));
+        const sortedUpdatedDoNotContactList = sortContactsByLastName(updatedDoNotContactList);
+        setDoNotContactList(sortedUpdatedDoNotContactList);
+        localStorage.setItem('doNotContactList', JSON.stringify(sortedUpdatedDoNotContactList));
 
         // Add back to contacts
         const updatedContacts = [...contacts, contactToRemove];
-        setContacts(updatedContacts);
-        localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+        const sortedUpdatedContacts = sortContactsByLastName(updatedContacts);
+        setContacts(sortedUpdatedContacts);
+        localStorage.setItem('contacts', JSON.stringify(sortedUpdatedContacts));
     };
 
     const showToast = (message: string) => {
