@@ -1,5 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonListHeader, IonList, IonLabel, IonItem, IonIcon, IonCard, IonCardHeader, IonCardContent, IonSearchbar, IonMenuButton } from '@ionic/react';
+import {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonButtons,
+    IonButton,
+    IonList,
+    IonLabel,
+    IonItem,
+    IonIcon,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonSearchbar,
+    IonMenuButton,
+    IonSegment,
+    IonSegmentButton
+} from '@ionic/react';
 import { search, trashBin } from 'ionicons/icons';
 import './Contacts.css';
 import Papa from 'papaparse';
@@ -19,6 +38,7 @@ const Contacts: React.FC = () => {
     const searchbarRef = useRef<HTMLIonSearchbarElement>(null);
     const [doNotContactList, setDoNotContactList] = useState<Contact[]>([]);
     const [isEditDoNotContact, setIsEditDoNotContact] = useState<boolean>(false);
+    const [selectedTab, setSelectedTab] = useState<string>('contacts');
 
     // Configure Fuse.js
     const fuse = new Fuse(contacts, {
@@ -54,8 +74,8 @@ const Contacts: React.FC = () => {
                     }));
 
                     // Filter out contacts that are in the do not contact list
-                    const filteredContacts = parsedContacts.filter(contact => 
-                        !doNotContactList.some(doNotContact => 
+                    const filteredContacts = parsedContacts.filter(contact =>
+                        !doNotContactList.some(doNotContact =>
                             doNotContact.firstName === contact.firstName &&
                             doNotContact.lastName === contact.lastName &&
                             doNotContact.phoneNumber === contact.phoneNumber
@@ -70,9 +90,9 @@ const Contacts: React.FC = () => {
     };
 
     const handleDeleteContact = (contactToDelete: Contact) => {
-        const updatedContacts = contacts.filter(contact => 
-            contact.firstName !== contactToDelete.firstName || 
-            contact.lastName !== contactToDelete.lastName || 
+        const updatedContacts = contacts.filter(contact =>
+            contact.firstName !== contactToDelete.firstName ||
+            contact.lastName !== contactToDelete.lastName ||
             contact.phoneNumber !== contactToDelete.phoneNumber
         );
         setContacts(updatedContacts);
@@ -85,9 +105,9 @@ const Contacts: React.FC = () => {
     };
 
     const handleRemoveFromDoNotContact = (contactToRemove: Contact) => {
-        const updatedDoNotContactList = doNotContactList.filter(contact => 
-            contact.firstName !== contactToRemove.firstName || 
-            contact.lastName !== contactToRemove.lastName || 
+        const updatedDoNotContactList = doNotContactList.filter(contact =>
+            contact.firstName !== contactToRemove.firstName ||
+            contact.lastName !== contactToRemove.lastName ||
             contact.phoneNumber !== contactToRemove.phoneNumber
         );
         setDoNotContactList(updatedDoNotContactList);
@@ -139,96 +159,110 @@ const Contacts: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent color="light" className="ion-no-padding">
-                <IonCard mode="md">
-                    <IonCardHeader className="ion-no-padding">
-                        <IonToolbar color="secondary">
-                            {isSearch ? (
-                                <IonSearchbar
-                                    ref={searchbarRef}
-                                    value={searchQuery}
-                                    onIonInput={(e) => setSearchQuery(e.detail.value!)}
-                                    placeholder="Search Contacts"
-                                    style={{ flex: 1, marginRight: '10px' }}
-                                />
-                            ) : (
-                                <IonTitle>IMPORTED CONTACTS</IonTitle>
-                            )}
-                            <IonButtons slot="end">
-                                <IonButton
-                                    slot="icon-only"
-                                    onClick={() => {
-                                        setIsSearch(!isSearch);
-                                        if (!isSearch) {
-                                            setTimeout(() => searchbarRef.current?.setFocus(), 0);
-                                        } else {
-                                            setSearchQuery('');
-                                        }
-                                    }}
-                                >
-                                    {isSearch ? 'DONE' : <IonIcon icon={search} />}
-                                </IonButton>
-                            </IonButtons>
-                        </IonToolbar>
-                    </IonCardHeader>
-                    <IonCardContent className="ion-no-padding contacts-card-content">
-                        <IonList className="ion-no-padding">
-                            <IonItem color="light" lines="none">
-                                CONTACTS
+                <IonSegment value={selectedTab} onIonChange={(e) => setSelectedTab(e.detail.value!)}>
+                    <IonSegmentButton value="contacts">
+                        <IonLabel>Contact</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value="doNotContact">
+                        <IonLabel>Do Not Contact</IonLabel>
+                    </IonSegmentButton>
+                </IonSegment>
+
+                {selectedTab === 'contacts' && (
+                    <IonCard mode="md">
+                        <IonCardHeader className="ion-no-padding">
+                            <IonToolbar color="secondary">
+                                {isSearch ? (
+                                    <IonSearchbar
+                                        ref={searchbarRef}
+                                        value={searchQuery}
+                                        onIonInput={(e) => setSearchQuery(e.detail.value!)}
+                                        placeholder="Search Contacts"
+                                        style={{ flex: 1, marginRight: '10px' }}
+                                    />
+                                ) : (
+                                    <IonTitle>IMPORTED CONTACTS</IonTitle>
+                                )}
                                 <IonButtons slot="end">
-                                    <IonButton onClick={() => setIsEdit(!isEdit)} slot="end">
-                                        {isEdit ? 'Done' : 'Edit'}
+                                    <IonButton
+                                        slot="icon-only"
+                                        onClick={() => {
+                                            setIsSearch(!isSearch);
+                                            if (!isSearch) {
+                                                setTimeout(() => searchbarRef.current?.setFocus(), 0);
+                                            } else {
+                                                setSearchQuery('');
+                                            }
+                                        }}
+                                    >
+                                        {isSearch ? 'DONE' : <IonIcon icon={search} />}
                                     </IonButton>
                                 </IonButtons>
-                            </IonItem>
-                            {results.map((contact, index) => (
-                                <IonItem key={index}>
-                                    <IonLabel>
-                                        {contact.firstName} <b>{contact.lastName}</b>
-                                    </IonLabel>
-                                    <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
-                                    {isEdit && (
-                                        <IonButtons slot="end">
-                                            <IonButton slot="icon-only" color="danger" onClick={() => handleDeleteContact(contact)}>
-                                                <IonIcon icon={trashBin} />
-                                            </IonButton>
-                                        </IonButtons>
-                                    )}
+                            </IonToolbar>
+                        </IonCardHeader>
+                        <IonCardContent className="ion-no-padding contacts-card-content">
+                            <IonList className="ion-no-padding">
+                                <IonItem color="light" lines="none">
+                                    CONTACTS
+                                    <IonButtons slot="end">
+                                        <IonButton onClick={() => setIsEdit(!isEdit)} slot="end">
+                                            {isEdit ? 'Done' : 'Edit'}
+                                        </IonButton>
+                                    </IonButtons>
                                 </IonItem>
-                            ))}
-                        </IonList>
-                    </IonCardContent>
-                </IonCard>
-                <IonCard mode="md">
-                    <IonCardHeader className="ion-no-padding">
-                        <IonToolbar color="secondary">
-                            <IonTitle>DO NOT CONTACT</IonTitle>
-                            <IonButtons slot="end">
-                                <IonButton onClick={() => setIsEditDoNotContact(!isEditDoNotContact)} slot="end">
-                                    {isEditDoNotContact ? 'Done' : 'Edit'}
-                                </IonButton>
-                            </IonButtons>
-                        </IonToolbar>
-                    </IonCardHeader>
-                    <IonCardContent className="ion-no-padding contacts-card-content">
-                        <IonList className="ion-no-padding">
-                            {doNotContactList.map((contact, index) => (
-                                <IonItem key={index}>
-                                    <IonLabel>
-                                        {contact.firstName} <b>{contact.lastName}</b>
-                                    </IonLabel>
-                                    <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
-                                    {isEditDoNotContact && (
-                                        <IonButtons slot="end">
-                                            <IonButton slot="icon-only" color="danger" onClick={() => handleRemoveFromDoNotContact(contact)}>
-                                                <IonIcon icon={trashBin} />
-                                            </IonButton>
-                                        </IonButtons>
-                                    )}
-                                </IonItem>
-                            ))}
-                        </IonList>
-                    </IonCardContent>
-                </IonCard>
+                                {results.map((contact, index) => (
+                                    <IonItem key={index}>
+                                        <IonLabel>
+                                            {contact.firstName} <b>{contact.lastName}</b>
+                                        </IonLabel>
+                                        <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
+                                        {isEdit && (
+                                            <IonButtons slot="end">
+                                                <IonButton slot="icon-only" color="danger" onClick={() => handleDeleteContact(contact)}>
+                                                    <IonIcon icon={trashBin} />
+                                                </IonButton>
+                                            </IonButtons>
+                                        )}
+                                    </IonItem>
+                                ))}
+                            </IonList>
+                        </IonCardContent>
+                    </IonCard>
+                )}
+
+                {selectedTab === 'doNotContact' && (
+                    <IonCard mode="md">
+                        <IonCardHeader className="ion-no-padding">
+                            <IonToolbar color="secondary">
+                                <IonTitle>DO NOT CONTACT</IonTitle>
+                                <IonButtons slot="end">
+                                    <IonButton onClick={() => setIsEditDoNotContact(!isEditDoNotContact)} slot="end">
+                                        {isEditDoNotContact ? 'Done' : 'Edit'}
+                                    </IonButton>
+                                </IonButtons>
+                            </IonToolbar>
+                        </IonCardHeader>
+                        <IonCardContent className="ion-no-padding contacts-card-content">
+                            <IonList className="ion-no-padding">
+                                {doNotContactList.map((contact, index) => (
+                                    <IonItem key={index}>
+                                        <IonLabel>
+                                            {contact.firstName} <b>{contact.lastName}</b>
+                                        </IonLabel>
+                                        <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
+                                        {isEditDoNotContact && (
+                                            <IonButtons slot="end">
+                                                <IonButton slot="icon-only" color="danger" onClick={() => handleRemoveFromDoNotContact(contact)}>
+                                                    <IonIcon icon={trashBin} />
+                                                </IonButton>
+                                            </IonButtons>
+                                        )}
+                                    </IonItem>
+                                ))}
+                            </IonList>
+                        </IonCardContent>
+                    </IonCard>
+                )}
             </IonContent>
         </IonPage>
     );
