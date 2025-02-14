@@ -42,7 +42,7 @@ const Contacts: React.FC = () => {
 
     // Helper function to sort an array of contacts by last name alphabetically.
     const sortContactsByLastName = (contactsArray: Contact[]): Contact[] => {
-        return [...contactsArray].sort((a, b) => a.lastName.localeCompare(b.lastName));
+        return [...contactsArray].sort((a, b) => (a.lastName || '').localeCompare(b.lastName || ''));
     };
 
     // Configure Fuse.js
@@ -73,12 +73,15 @@ const Contacts: React.FC = () => {
         if (file) {
             Papa.parse(file, {
                 header: true,
+                skipEmptyLines: true,
                 complete: (results: Papa.ParseResult<any>) => {
-                    const parsedContacts: Contact[] = results.data.map((contact: any) => ({
-                        firstName: contact['First Name'],
-                        lastName: contact['Last Name'],
-                        phoneNumber: contact['Phone Number'],
-                    }));
+                    const parsedContacts: Contact[] = results.data
+                        .map((contact: any) => ({
+                            firstName: contact['First Name'],
+                            lastName: contact['Last Name'],
+                            phoneNumber: contact['Phone Number'],
+                        }))
+                        .filter(contact => contact.firstName || contact.lastName || contact.phoneNumber);
 
                     // Filter out contacts that are in the do not contact list
                     const filteredContacts = parsedContacts.filter(contact =>
