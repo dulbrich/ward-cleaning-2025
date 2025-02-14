@@ -46,6 +46,12 @@ const appPages: AppPage[] = [
     url: '/schedule',
     iosIcon: calendarOutline,
     mdIcon: calendarSharp
+  },
+  {
+    title: 'Instructions',
+    url: '/instructions',
+    iosIcon: bookmarkOutline,
+    mdIcon: bookmarkOutline
   }
 ];
 

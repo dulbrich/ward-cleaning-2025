@@ -7,6 +7,7 @@ import Campaigns from './pages/Campaigns';
 import Contacts from './pages/Contacts';
 import Messenger from './pages/Messenger';
 import Schedule from './pages/Schedule';
+import Instructions from './pages/Instructions';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -58,6 +59,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/schedule" exact={true}>
               <Schedule />
+            </Route>
+            <Route path="/instructions" exact={true}>
+              <Instructions />
             </Route>
             <Redirect exact from="/" to="/messenger" />
           </IonRouterOutlet>

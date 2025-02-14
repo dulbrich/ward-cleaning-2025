@@ -139,7 +139,7 @@ const Messenger: React.FC = () => {
             </IonHeader>
             <IonContent color="light">
                 {(!contacts.length || selectedCampaign === null) ? (
-                    <div style={{ textAlign: 'center', marginTop: '50%' }}>
+                    <div style={{ textAlign: 'center', marginTop: '25%' }}>
                         <ol>
                             <li><a href="/contacts">Import Contacts</a></li>
                             <li><a href="/campaigns">Select a Campaign</a></li>
