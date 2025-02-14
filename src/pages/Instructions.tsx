@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonMenuButton  } from '@ionic/react';
 import ReactMarkdown from 'react-markdown';
 
 const Instructions: React.FC = () => {
@@ -16,6 +16,9 @@ const Instructions: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+            <IonButtons slot="start">
+                <IonMenuButton />
+            </IonButtons>
           <IonTitle>Instructions</IonTitle>
         </IonToolbar>
       </IonHeader>
