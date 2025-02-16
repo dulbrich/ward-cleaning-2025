@@ -2,7 +2,7 @@
 
 ## Overview
 
-The LDS Church Cleaning Reminder App is designed to assist ward organizers in efficiently managing and reminding members of their cleaning duties for church buildings. This application addresses the challenge of sending bulk text messages by dividing the ward into four groups and enabling users to send personalized messages with minimal effort. While the app does not automate message sending, it streamlines the process, making it easier for organizers to keep track of who needs to be contacted.
+The Ward Cleaning Reminder App is designed to assist ward organizers in efficiently managing and reminding members of their cleaning duties for church buildings. This application addresses the challenge of sending bulk text messages by dividing the ward into four groups and enabling users to send personalized messages with minimal effort. While the app does not automate message sending, it streamlines the process, making it easier for organizers to keep track of who needs to be contacted.
 
 ## How the App Works
 
