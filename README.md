@@ -1,4 +1,4 @@
-# LDS Church Cleaning Reminder App Instructions
+# Ward Cleaning Reminder App Instructions
 
 ## Overview
 
