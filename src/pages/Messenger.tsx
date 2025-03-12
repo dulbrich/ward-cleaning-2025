@@ -1,6 +1,6 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonToast, IonList, IonItem, IonLabel, IonIcon, IonButtons, IonMenuButton } from '@ionic/react';
-import React, { useState, useEffect } from 'react';
+import { IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenuButton, IonPage, IonSelect, IonSelectOption, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { checkmarkCircle } from 'ionicons/icons';
+import React, { useEffect, useState } from 'react';
 
 interface Contact {
     firstName: string;
@@ -58,10 +58,16 @@ const Messenger: React.FC = () => {
         setShowToast(true);
     };
 
-    const handleContactClick = (index: number): void => {
+    const handleContactClick = (contact: Contact): void => {
+        // Find the index of the contact in the full contacts array
+        const index = contacts.findIndex(c => 
+            c.firstName === contact.firstName && 
+            c.lastName === contact.lastName && 
+            c.phoneNumber === contact.phoneNumber
+        );
+        
         if (contacted.has(index)) return;
 
-        const contact = contacts[index];
         const templateIndex = localStorage.getItem('selectedCampaignTemplateIndex');
         const templates: Template[] = JSON.parse(localStorage.getItem('savedCampaignTemplates') || '[]');
         const template = templates[Number(templateIndex)] || '';
@@ -148,22 +154,29 @@ const Messenger: React.FC = () => {
                     </div>
                 ) : (
                     <IonList>
-                        {filterContactsByGroup().map((contact: Contact, index: number) => (
-                            <IonItem
-                                key={index}
-                                button={!contacted.has(index)}
-                                color={contacted.has(index) ? 'light' : undefined}
-                                onClick={() => handleContactClick(index)}
-                            >
-                                <IonLabel>
-                                    {contact.firstName} {contact.lastName}
-                                </IonLabel>
-                                <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
-                                {contacted.has(index) && (
-                                    <IonIcon slot="end" icon={checkmarkCircle} color="success" />
-                                )}
-                            </IonItem>
-                        ))}
+                        {filterContactsByGroup().map((contact: Contact, index: number) => {
+                            const contactIndex = contacts.findIndex(c => 
+                                c.firstName === contact.firstName && 
+                                c.lastName === contact.lastName && 
+                                c.phoneNumber === contact.phoneNumber
+                            );
+                            return (
+                                <IonItem
+                                    key={index}
+                                    button={!contacted.has(contactIndex)}
+                                    color={contacted.has(contactIndex) ? 'light' : undefined}
+                                    onClick={() => handleContactClick(contact)}
+                                >
+                                    <IonLabel>
+                                        {contact.firstName} {contact.lastName}
+                                    </IonLabel>
+                                    <IonLabel slot="end">{contact.phoneNumber}</IonLabel>
+                                    {contacted.has(contactIndex) && (
+                                        <IonIcon slot="end" icon={checkmarkCircle} color="success" />
+                                    )}
+                                </IonItem>
+                            );
+                        })}
                     </IonList>
                 )}
                 <IonToast
