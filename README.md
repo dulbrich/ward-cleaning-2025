@@ -1,8 +1,8 @@
-# LDS Church Cleaning Reminder App Instructions
+# Ward Cleaning Reminder App Instructions
 
 ## Overview
 
-The LDS Church Cleaning Reminder App is designed to assist ward organizers in efficiently managing and reminding members of their cleaning duties for church buildings. This application addresses the challenge of sending bulk text messages by dividing the ward into four groups and enabling users to send personalized messages with minimal effort. While the app does not automate message sending, it streamlines the process, making it easier for organizers to keep track of who needs to be contacted.
+The Ward Cleaning Reminder App is designed to assist ward organizers in efficiently managing and reminding members of their cleaning duties for church buildings. This application addresses the challenge of sending bulk text messages by dividing the ward into four groups and enabling users to send personalized messages with minimal effort. While the app does not automate message sending, it streamlines the process, making it easier for organizers to keep track of who needs to be contacted.
 
 ## How the App Works
 
@@ -10,7 +10,7 @@ The LDS Church Cleaning Reminder App is designed to assist ward organizers in ef
 
 2. **Create a Texting Template or Campaign**: Set up message templates that automatically insert member details, such as names and groups, for personalized communication. [Go to Campaigns Tab](/campaigns)
 
-3. **Generate Cleaning Schedules**: With a few clicks, create cleaning schedules that assign groups to specific Saturdays. Wards are split up into four groups based on the last letter of the first name (groups include A-F, G-L, M-R, S-Z). Fifth Saturday of the month is scheduled for all members. [Go to Schedule Tab](/schedule)
+3. **Generate Cleaning Schedules**: With a few clicks, create cleaning schedules that assign groups to specific Saturdays. Wards are split up into four groups based on the first letter of their last name (groups include A-F, G-L, M-R, S-Z). Fifth Saturday of the month is scheduled for all members. [Go to Schedule Tab](/schedule)
 
 4. **Send Messages**: Click on each contact to open your SMS messaging app with a pre-filled message, including the recipient's phone number and personalized message. [Go to Messenger Tab](/messenger)
 
